@@ -1,0 +1,1 @@
+<?= $this->partial(#SELSTART#file#SELEND#),#SELSTART#$data#SELEND# ?>
