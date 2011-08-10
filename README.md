@@ -2,6 +2,8 @@ This is an attempt to exercise BBEdit 10's package feature combined with my need
 
 Currenly contains a tags file for the latest Zend Framework, and some misc bits from my own BBEdit config (clippings, etc).
 
+Added maketags script to make a nice (?) completions file.
+
 Text Filters:
 
 	basic wrapper for PHP_Beautify - better than nothing.

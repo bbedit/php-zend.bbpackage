@@ -1,0 +1,34 @@
+#!/usr/local/zend/bin/php-cli
+<?php
+//------------------------------------------------------------------------------
+// J. Gregg Thomason (gregg.thomason@gmail.com)
+// inspired by https://github.com/markhuot/ptags
+//------------------------------------------------------------------------------
+
+$zendpath = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[1], FilesystemIterator::SKIP_DOTS)); // path to Zend base dir. like the one with the files in it.
+$tagfile = "!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;\" to lines/\n";
+$tagfile.= "!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/\n";
+$tagfile.= "!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/\n";
+$tagfile.= "!_TAG_PROGRAM_NAME	Exuberant Ctags	//\n";
+$tagfile.= "!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/\n";
+$tagfile.= "!_TAG_PROGRAM_VERSION	5.8	//\n";
+foreach($zendpath as $pathitem){
+    if($pathitem->isDir()){
+        continue;
+    }
+    if(preg_match('/\.php/', $pathitem->getFilename())){
+        $activefile = file_get_contents($pathitem->getPathname());
+        $isagoodfile = preg_match('/^(abstract|final)?\s?(class|interface) (\w+)/m', $activefile, $classname);
+        if(!$isagoodfile) { continue; }
+        $thisclass = $classname[3];
+        preg_match_all('/(public|private|protected)\s?(static)?\s?function\s?([&_\w]+)\s?(\([\w\s,&\'\"\(\):\._\$=]*\))+/m', $activefile, $allfuncs, PREG_SET_ORDER);
+        foreach($allfuncs as $funcmatch){
+            $signature = str_replace('$', '', $funcmatch[4]);
+            $signature = str_replace("'",'',$signature);
+            $signature = str_replace("\n",' ',$signature);
+            $tagfile .= $funcmatch[3]."\t*.php\t0;\"\tkind:f\tclass:".$thisclass."\taccess:".$funcmatch[1]."\tsignature:".$signature."\n";
+
+        }
+    }
+}
+file_put_contents('tags', $tagfile);
