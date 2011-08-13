@@ -13,9 +13,7 @@ $tagfile.= "!_TAG_PROGRAM_NAME	Exuberant Ctags	//\n";
 $tagfile.= "!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/\n";
 $tagfile.= "!_TAG_PROGRAM_VERSION	5.8	//\n";
 foreach($zendpath as $pathitem){
-    if($pathitem->isDir()){
-        continue;
-    }
+    if($pathitem->isDir()) continue;
     if(preg_match('/\.php/', $pathitem->getFilename())){
         $activefile = file_get_contents($pathitem->getPathname());
         $isagoodfile = preg_match('/^(abstract|final)?\s?(class|interface) (\w+)/m', $activefile, $classname);
@@ -27,7 +25,6 @@ foreach($zendpath as $pathitem){
             $signature = str_replace("'",'',$signature);
             $signature = str_replace("\n",' ',$signature);
             $tagfile .= $funcmatch[3]."\t*.php\t0;\"\tkind:f\tclass:".$thisclass."\taccess:".$funcmatch[1]."\tsignature:".$signature."\n";
-
         }
     }
 }
