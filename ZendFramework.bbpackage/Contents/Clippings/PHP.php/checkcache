@@ -1,0 +1,1 @@
+﻿$this->checkCache('#SELSTART#key#SELEND#')

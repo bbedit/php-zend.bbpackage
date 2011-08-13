@@ -1,0 +1,1 @@
+﻿$this->saveToCache(array('#SELSTART#key#SELEND#'=>$#SELSTART#value#SELEND#))
