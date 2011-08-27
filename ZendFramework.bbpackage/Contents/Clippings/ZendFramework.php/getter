@@ -1,0 +1,1 @@
+﻿#INDENT#public function get#SELECTIONORPLACEHOLDER Property#(){    return $this->#SELECTIONORPLACEHOLDER Property#}
